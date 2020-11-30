@@ -1,14 +1,9 @@
 #include "LoRaWANNode.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-#define PUSHBUTTON  PC13
-#define FRAME_DELAY_BY_TIME    false  // Sending method (TIME or PUSH BUTTON)    
+#define SEND_BY_PUSH_BUTTON true     // Sending method (Time or Push Button)    
 #define FRAME_DELAY         5000      // Time between 2 frames
 #define DATA_RATE           4
-#define ADAPTATIVE_DR       true
-#define ENABLE              1
-#define DISABLE             0
+#define ADAPTIVE_DR         true
 #define  CONFIRMED          false
 #define PORT                1
 
@@ -40,7 +35,7 @@ void setup()
 
 void loop()
 {
-  if( FRAME_DELAY_BY_TIME == 0)   while(digitalRead(PUSHBUTTON)); // Attente Push Button pour envoyer
+  if( SEND_BY_PUSH_BUTTON == 1)   while(digitalRead(PUSHBUTTON)); // Attente Push Button pour envoyer
   else                            delay(FRAME_DELAY);             // Attente FRAME_DELAY pour envoyer
   Serial1.print(" Sending Text : \"");Serial1.print(frameTx);Serial1.print("\"");
   if(CONFIRMED)   Serial1.print(" Uplink CONFIRMED on PORT ");
@@ -108,18 +103,18 @@ void infoBeforeActivation(void){
  loraNode.setAdaptativeDataRate(DISABLE);
  loraNode.setDataRate(DATA_RATE);
  Serial1.print(" * Data Rate : ");Serial1.print(loraNode.getDataRate());Serial1.print("\r\n");
- if(ADAPTATIVE_DR) {
+ if(ADAPTIVE_DR) {
     loraNode.setAdaptativeDataRate(ENABLE);
-    Serial1.print(" * Adaptative Data Rate : ON");Serial1.println("\r\n");
+    Serial1.print(" * Adaptive Data Rate : ON");Serial1.println("\r\n");
   }
   else {
-    Serial1.print(" * Adaptative Data Rate : OFF");Serial1.println("\r\n");
+    Serial1.print(" * Adaptive Data Rate : OFF");Serial1.println("\r\n");
   }       
   loraNode.setDutyCycle(DISABLE);
 }
 
 void infoAfterActivation(void){
-   if(FRAME_DELAY_BY_TIME == 1){
+   if(SEND_BY_PUSH_BUTTON == 0){
     Serial1.print(" Frame will be sent every");Serial1.print(FRAME_DELAY);Serial1.println("\r\n");
   }
   else {
