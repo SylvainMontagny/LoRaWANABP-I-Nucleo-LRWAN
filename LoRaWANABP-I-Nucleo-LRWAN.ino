@@ -1,9 +1,9 @@
 #include "LoRaWANNode.h"
 
-#define SEND_BY_PUSH_BUTTON true     // Sending method (Time or Push Button)    
-#define FRAME_DELAY         5000      // Time between 2 frames
-#define DATA_RATE           4
-#define ADAPTIVE_DR         true
+#define SEND_BY_PUSH_BUTTON false     // Sending method (Time or Push Button)    
+#define FRAME_DELAY         8000      // Time between 2 frames
+#define DATA_RATE           5
+#define ADAPTIVE_DR         false
 #define  CONFIRMED          false
 #define PORT                1
 
@@ -11,9 +11,9 @@ HardwareSerial SerialLora(D0, D1); // D0(Rx) D1(TX)
 HardwareSerial Serial1(PA10, PA9);
 
 // Device address, network & application keys
-const char devAddr[] = "26013A7B";
-const char nwkSKey[] = "4D02816CFFE64FEA1599C281982FC976";
-const char appSKey[] = "614BE9D577FC176D84816FE77849975C";
+const char devAddr[] = " ";
+const char nwkSKey[] = " ";
+const char appSKey[] = " ";
 
 char frameTx[] = "Hello";
 String str;
@@ -90,15 +90,12 @@ void infoBeforeActivation(void){
   }
   
   loraNode.setDutyCycle(false);
-  str = " * Device Address :      0x ";
-  loraNode.getDevAddr(&str);
-  Serial1.println(str);
-  str = " * Network Session Key : 0x ";
-  loraNode.getNwkSKey(&str);
-  Serial1.println(str);
-  str = " * Application Session Key : 0x ";
-  loraNode.getAppSKey(&str);
-  Serial1.println(str);Serial1.print("\r\n");
+  Serial1.print(" * Device Address :          0x ");
+  Serial1.println(devAddr);
+  Serial1.print(" * Network Session Key :     0x ");
+  Serial1.println(nwkSKey);
+  Serial1.print(" * Application Session Key : 0x ");
+  Serial1.println(appSKey);Serial1.print("\r\n");
   
  loraNode.setAdaptativeDataRate(DISABLE);
  loraNode.setDataRate(DATA_RATE);
