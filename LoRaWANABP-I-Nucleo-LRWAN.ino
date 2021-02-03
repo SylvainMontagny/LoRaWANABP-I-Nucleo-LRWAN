@@ -11,9 +11,9 @@ HardwareSerial SerialLora(D0, D1); // D0(Rx) D1(TX)
 HardwareSerial Serial1(PA10, PA9);
 
 // Device address, network & application keys
-const char devAddr[] = " ";
-const char nwkSKey[] = " ";
-const char appSKey[] = " ";
+const char devAddr[] = "";
+const char nwkSKey[] = "";
+const char appSKey[] = "";
 
 char frameTx[] = "Hello";
 String str;
@@ -52,10 +52,12 @@ void receive(void) {
 
   if(loraNode.receiveFrame(frameRx, &len, &port)) {
     uint8_t n = 0;
-    Serial1.print(" Frame received: 0x");
+    Serial1.print(" Frame received: ");
     while(len > 0) {
       Serial1.print(frameRx[n], HEX);
-      Serial1.print(',');
+      Serial1.print("(Hexa) ");
+      Serial1.print(frameRx[n]);
+      Serial1.print("(Dec), ");
       len--;
       n++;
     }
@@ -112,7 +114,7 @@ void infoBeforeActivation(void){
 
 void infoAfterActivation(void){
    if(SEND_BY_PUSH_BUTTON == 0){
-    Serial1.print(" Frame will be sent every");Serial1.print(FRAME_DELAY);Serial1.println("\r\n");
+    Serial1.print(" Frame will be sent every ");Serial1.print(FRAME_DELAY);Serial1.println("\r\n");
   }
   else {
     Serial1.println(" Press Blue Button to send a Frame\r\n");
